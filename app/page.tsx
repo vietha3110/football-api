@@ -1,21 +1,95 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+'use client'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { SelectLeagues } from '@/components/SelectLeagues'
+import { useState } from 'react'
+import SelectSeasons from '@/components/SelectSeasons'
+import SelectFixtures from '@/components/SelectFixtures'
+import SelectOdds from '@/components/SelectOdds'
+import SelectBookmakers from '@/components/SelectBookmakers'
 
 export default function Home() {
+  const [isLeague, setIsLeague] = useState<boolean>(true); 
+  const [isSeason, setIsSeason] = useState<boolean>(false);
+  const [isFixture, setIsFixture] = useState<boolean>(false); 
+  const [isBookmaker, setIsBookmaker] = useState<boolean>(false);
+  const [isOdd, setIsOdd] = useState<boolean>(false);
+  const [leagueVal, setLeagueVal] = useState<number>();
+  const [seasonVal, setSeasonVal] = useState<number>();
+  const [fixtureVal, setFixtureVal] = useState<number>();
+  const [bookMakerVal, setBookmakerVal] = useState<number>();
+  const [oddVal, setOddVal] = useState<number>();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
-      <div className='w-full px-2'>
-        <Tabs defaultValue='bookmaker' className='w-full'>
-          <TabsList className='w-full'>
-              <TabsTrigger value='bookmaker' className='w-1/4'>Book Makers</TabsTrigger>
-              <TabsTrigger value='odds'className='w-1/4'>Odds</TabsTrigger>
-              <TabsTrigger value='fixtures' className='w-1/4'>Fixtures</TabsTrigger>
-              <TabsTrigger value='leagues'className='w-1/4'>Leagues</TabsTrigger>
-          </TabsList>
-          <TabsContent value='bookmaker' className='w-full'>bookmarkers</TabsContent>
-          <TabsContent value='odds'className='w-full'>odds</TabsContent>
-          <TabsContent value='fixtures' className='w-full'>fixtures</TabsContent>
-          <TabsContent value='leagues'className='w-full'>leagues</TabsContent>
-        </Tabs>
+    <main className='flex min-h-screen flex-col items-center justify-between py-24'>
+      <div className='flex w-full min-h-screen flex-col items-center justify-between'>
+        <Card className='w-1/2 h-full' >
+          <CardHeader>
+            <CardTitle> {!isOdd && 'Select'} {isOdd && 'Odd'} {isLeague && 'League'} {isSeason && 'Season'} {isFixture && 'Fixture'} {isBookmaker && 'Book Makers'}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {
+              isLeague &&
+              <SelectLeagues
+                setIsLeague={setIsLeague}
+                leagueVal={leagueVal}
+                setLeagueVal={setLeagueVal}
+                setIsSeason={setIsSeason} />
+            }
+            {
+              isSeason &&
+              <SelectSeasons
+                setIsSeason={setIsSeason}
+                setIsFixture={setIsFixture}
+                seasonVal={seasonVal}
+                setSeasonVal={setSeasonVal}
+                setIsLeague={setIsLeague} />
+            }
+            {
+              isFixture &&
+              <SelectFixtures
+                fixtureVal={fixtureVal}
+                setFixtureVal={setFixtureVal}
+                setIsFixture={setIsFixture}
+                leagueVal={leagueVal}
+                seasonVal={seasonVal}
+                setIsBookmaker={setIsBookmaker}
+                setIsSeason={setIsSeason}
+              />
+            }
+            {
+              isBookmaker &&
+              <SelectBookmakers
+                setIsBookmaker={setIsBookmaker}
+                setBookmakerVal={setBookmakerVal}
+                bookmakerVal={bookMakerVal}
+                setIsOdd={setIsOdd}
+                setIsFixture={setIsFixture}
+              />
+            }
+            {
+              isOdd &&
+              <SelectOdds
+                setIsOdd={setIsOdd}
+                setOddVal={setOddVal}
+                oddVal={oddVal}
+                leagueVal={leagueVal}
+                fixtureVal={fixtureVal}
+                seasonVal={seasonVal}
+                bookmakerVal={bookMakerVal}
+                setIsBookmaker={setIsBookmaker}
+              />
+            }
+          </CardContent>
+          <CardFooter>
+          </CardFooter>
+        </Card>
       </div>
     </main>
   )
