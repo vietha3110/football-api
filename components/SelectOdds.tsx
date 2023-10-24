@@ -1,39 +1,48 @@
-import { JsonView, allExpanded, darkStyles, defaultStyles } from 'react-json-view-lite';
+import { JsonView, allExpanded, defaultStyles } from 'react-json-view-lite';
 import 'react-json-view-lite/dist/index.css';
-import { useQuery } from '@tanstack/react-query'
-import { Button } from './ui/button'
+import { useQuery } from '@tanstack/react-query';
+import { Button } from './ui/button';
 
-export default function SelectOdds({ setIsOdd, setOddVal, oddVal, seasonVal, bookmakerVal, leagueVal, fixtureVal, setIsBookmaker }) {
-    const {isError, data, isLoading, error } = useQuery({
-        queryKey: ['odds'],
-        queryFn: async () => {
-            const res = await fetch(`/api/odds?season=${seasonVal}&league=${leagueVal}&bookmaker=${bookmakerVal}&fixture=${fixtureVal}`);
-            const data = await res.json();
-            return data;
-        }
-    })
-    if (isLoading || !data) {
-        return (
-            <div>Loading</div>
-        )
+type Props = {
+  setIsOdd: (_: boolean) => any,
+  seasonVal: number,
+  bookmakerVal: number,
+  leagueVal: number,
+  fixtureVal: number,
+  setIsBookmaker: (_: boolean) => any,
+};
+
+export default function SelectOdds({ setIsOdd, seasonVal, bookmakerVal, leagueVal, fixtureVal, setIsBookmaker }: Props) {
+  const { isError, data, isLoading, error } = useQuery({
+    queryKey: ['odds'],
+    queryFn: async () => {
+      const res = await fetch(`/api/odds?season=${seasonVal}&league=${leagueVal}&bookmaker=${bookmakerVal}&fixture=${fixtureVal}`);
+      const data = await res.json();
+      return data;
     }
-    if (isError) {
-        return <span>Error, Please try again</span>
-    }
-    const handleBack = () => {
-        setIsOdd(false);
-        setIsBookmaker(true);
-    }
+  })
+  if (isLoading || !data) {
     return (
-        <div>
-            <div className='w-full'>
-                <JsonView data={data}  shouldExpandNode={allExpanded} style={defaultStyles}/>
-            </div>
-            <div>
-                <Button onClick={handleBack}>
-                    Back
-                </Button>
-            </div>
-        </div>
+      <div>Loading</div>
     )
+  }
+  if (isError) {
+    return <span>Error, Please try again</span>
+  }
+  const handleBack = () => {
+    setIsOdd(false);
+    setIsBookmaker(true);
+  }
+  return (
+    <div>
+      <div className='w-full'>
+        <JsonView data={data} shouldExpandNode={allExpanded} style={defaultStyles} />
+      </div>
+      <div>
+        <Button onClick={handleBack}>
+          Back
+        </Button>
+      </div>
+    </div>
+  )
 }
