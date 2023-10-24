@@ -1,11 +1,9 @@
 'use client'
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
+  CardContent, CardFooter,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from '@/components/ui/card'
 import { SelectLeagues } from '@/components/SelectLeagues'
 import { useState } from 'react'
@@ -15,9 +13,9 @@ import SelectOdds from '@/components/SelectOdds'
 import SelectBookmakers from '@/components/SelectBookmakers'
 
 export default function Home() {
-  const [isLeague, setIsLeague] = useState<boolean>(true); 
+  const [isLeague, setIsLeague] = useState<boolean>(true);
   const [isSeason, setIsSeason] = useState<boolean>(false);
-  const [isFixture, setIsFixture] = useState<boolean>(false); 
+  const [isFixture, setIsFixture] = useState<boolean>(false);
   const [isBookmaker, setIsBookmaker] = useState<boolean>(false);
   const [isOdd, setIsOdd] = useState<boolean>(false);
   const [leagueVal, setLeagueVal] = useState<number>();
@@ -38,7 +36,7 @@ export default function Home() {
               isLeague &&
               <SelectLeagues
                 setIsLeague={setIsLeague}
-                leagueVal={leagueVal}
+                leagueVal={leagueVal || 0}
                 setLeagueVal={setLeagueVal}
                 setIsSeason={setIsSeason} />
             }
@@ -47,18 +45,17 @@ export default function Home() {
               <SelectSeasons
                 setIsSeason={setIsSeason}
                 setIsFixture={setIsFixture}
-                seasonVal={seasonVal}
+                seasonVal={seasonVal || 0}
                 setSeasonVal={setSeasonVal}
                 setIsLeague={setIsLeague} />
             }
             {
               isFixture &&
               <SelectFixtures
-                fixtureVal={fixtureVal}
                 setFixtureVal={setFixtureVal}
                 setIsFixture={setIsFixture}
-                leagueVal={leagueVal}
-                seasonVal={seasonVal}
+                leagueVal={leagueVal || 0}
+                seasonVal={seasonVal || 0}
                 setIsBookmaker={setIsBookmaker}
                 setIsSeason={setIsSeason}
               />
@@ -68,7 +65,7 @@ export default function Home() {
               <SelectBookmakers
                 setIsBookmaker={setIsBookmaker}
                 setBookmakerVal={setBookmakerVal}
-                bookmakerVal={bookMakerVal}
+                bookmakerVal={bookMakerVal || 0}
                 setIsOdd={setIsOdd}
                 setIsFixture={setIsFixture}
               />
@@ -77,12 +74,10 @@ export default function Home() {
               isOdd &&
               <SelectOdds
                 setIsOdd={setIsOdd}
-                setOddVal={setOddVal}
-                oddVal={oddVal}
-                leagueVal={leagueVal}
-                fixtureVal={fixtureVal}
-                seasonVal={seasonVal}
-                bookmakerVal={bookMakerVal}
+                leagueVal={leagueVal || 0}
+                fixtureVal={fixtureVal || 0}
+                seasonVal={seasonVal || 0}
+                bookmakerVal={bookMakerVal || 0}
                 setIsBookmaker={setIsBookmaker}
               />
             }
